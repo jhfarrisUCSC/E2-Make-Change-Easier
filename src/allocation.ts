@@ -14,7 +14,7 @@ type shiftResults = {
   totalBalance: number;
 };
 
-function updateShift() {
+function updateShift(allocations: number): shiftResults {
   const productOutput = allocations * 3; // How much money is being made
   const consumerInput = 6; // How much money is being spent
   const totalBalance = productOutput - consumerInput; // Total money
@@ -27,7 +27,7 @@ function updateShift() {
 }
 
 function update() {
-  const results = updateShift();
+  const results = updateShift(allocations);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < 6; i++) {
     ctx.fillStyle = i < allocations ? "#27766b" : "#c9d2c9";
