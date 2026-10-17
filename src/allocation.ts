@@ -5,47 +5,57 @@ const ctx = canvas.getContext("2d")!;
 const readout = document.querySelector<HTMLParagraphElement>(
   "#allocation-readout",
 )!;
-let n = 2;
+let allocations = 2;
 
-function u() {
-  const p = n * 3;
-  const c = 6;
-  const b = p - c;
+const productOutput = allocations * 3; // How much money is being made
+const consumerInput = 6; // How much money is being spent
+const totalBalance = productOutput - consumerInput; // Total money
+
+function update() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < 6; i++) {
-    ctx.fillStyle = i < n ? "#27766b" : "#c9d2c9";
+    ctx.fillStyle = i < allocations ? "#27766b" : "#c9d2c9";
     ctx.fillRect(18 + i * 45, 16, 36, 36);
-    ctx.fillStyle = i < n ? "#ffffff" : "#233e43";
+    ctx.fillStyle = i < allocations ? "#ffffff" : "#233e43";
     ctx.font = "16px system-ui";
     ctx.fillText(String(i + 1), 31 + i * 45, 40);
   }
-  ctx.fillStyle = "#233e43";
   ctx.font = "14px system-ui";
-  ctx.fillText(`Producers: ${n} / 6`, 18, 76);
-  ctx.fillText(`Production: ${p}`, 18, 102);
-  ctx.fillStyle = "#27766b";
-  ctx.fillRect(18, 110, p * 14, 20);
-  ctx.fillStyle = "#233e43";
-  ctx.fillText(`Consumption: ${c}`, 18, 154);
-  ctx.fillStyle = "#a44d23";
-  ctx.fillRect(18, 162, c * 14, 20);
+  ctx.fillText(`Producers: ${allocations} / 6`, 18, 76);
+
+  drawPanel("Production", productOutput, "#27766b", 102, 110);
+  drawPanel("Consumption", consumerInput, "#a44d23", 154, 162);
+
   readout.textContent =
-    `Assigned: ${n}/6 · Production: ${p} · Consumption: ${c} · Balance: ${
-      b > 0 ? "+" : ""
-    }${b}`;
+    `Assigned: ${allocations}/6 · Production: ${productOutput} · Consumption: ${consumerInput} · Balance: ${
+      totalBalance > 0 ? "+" : ""
+    }${totalBalance}`;
+}
+
+function drawPanel(
+  text: string,
+  data: number,
+  color: string,
+  labelY: number,
+  rectY: number,
+) {
+  ctx.fillStyle = "#233e43";
+  ctx.fillText(`${text}: ${data}`, 18, labelY);
+  ctx.fillStyle = color;
+  ctx.fillRect(18, rectY, data * 14, 20);
 }
 
 document.querySelector<HTMLButtonElement>("#allocation-less")!.onclick = () => {
-  n = Math.max(0, n - 1);
-  u();
+  allocations = Math.max(0, allocations - 1);
+  update();
 };
 document.querySelector<HTMLButtonElement>("#allocation-more")!.onclick = () => {
-  n = Math.min(6, n + 1);
-  u();
+  allocations = Math.min(6, allocations + 1);
+  update();
 };
 document.querySelector<HTMLButtonElement>("#allocation-reset")!.onclick =
   () => {
-    n = 2;
-    u();
+    allocations = 2;
+    update();
   };
-u();
+update();
