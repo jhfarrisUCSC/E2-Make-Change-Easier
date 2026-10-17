@@ -8,11 +8,11 @@ const readout = document.querySelector<HTMLParagraphElement>(
 let allocations = 2;
 
 type shiftResults = {
-  allocations: number,
-  productOutput: number,
-  consumerInput: number,
-  totalBalance: number,
-}
+  allocations: number;
+  productOutput: number;
+  consumerInput: number;
+  totalBalance: number;
+};
 
 function updateShift() {
   const productOutput = allocations * 3; // How much money is being made
@@ -23,7 +23,7 @@ function updateShift() {
     productOutput,
     consumerInput,
     totalBalance,
-  }
+  };
 }
 
 function update() {

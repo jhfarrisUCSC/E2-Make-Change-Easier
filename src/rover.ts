@@ -4,7 +4,10 @@ const canvas = document.querySelector<HTMLCanvasElement>("#rover-canvas")!;
 const ctx = canvas.getContext("2d")!;
 const readout = document.querySelector<HTMLParagraphElement>("#rover-readout")!;
 
-const queueOutput = document.querySelector<HTMLParagraphElement>("#rover-queue-status")!;
+const queueOutput = document.querySelector<HTMLParagraphElement>(
+  "#rover-queue-status",
+)!;
+
 let queueMessage = "";
 
 const headings = ["North", "East", "South", "West"];
@@ -15,17 +18,17 @@ let direction = 0;
 const queue: string[] = [];
 
 type Move = {
-  name: string,
-  x: number,
-  y: number,
-}
+  name: string;
+  x: number;
+  y: number;
+};
 
 const compass: Move[] = [
-  {name: "North", x: 0, y: -1},
-  {name: "East", x: 1, y: 0},
-  {name: "South", x: 0, y: 1},
-  {name: "West", x: -1, y: 0},
-]
+  { name: "North", x: 0, y: -1 },
+  { name: "East", x: 1, y: 0 },
+  { name: "South", x: 0, y: 1 },
+  { name: "West", x: -1, y: 0 },
+];
 
 function movement(moveType: string) {
   if (moveType == "Rotate") {
