@@ -7,11 +7,27 @@ const readout = document.querySelector<HTMLParagraphElement>(
 )!;
 let allocations = 2;
 
-const productOutput = allocations * 3; // How much money is being made
-const consumerInput = 6; // How much money is being spent
-const totalBalance = productOutput - consumerInput; // Total money
+type shiftResults = {
+  allocations: number,
+  productOutput: number,
+  consumerInput: number,
+  totalBalance: number,
+}
+
+function updateShift() {
+  const productOutput = allocations * 3; // How much money is being made
+  const consumerInput = 6; // How much money is being spent
+  const totalBalance = productOutput - consumerInput; // Total money
+  return {
+    allocations,
+    productOutput,
+    consumerInput,
+    totalBalance,
+  }
+}
 
 function update() {
+  const results = updateShift();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < 6; i++) {
     ctx.fillStyle = i < allocations ? "#27766b" : "#c9d2c9";
@@ -23,13 +39,13 @@ function update() {
   ctx.font = "14px system-ui";
   ctx.fillText(`Producers: ${allocations} / 6`, 18, 76);
 
-  drawPanel("Production", productOutput, "#27766b", 102, 110);
-  drawPanel("Consumption", consumerInput, "#a44d23", 154, 162);
+  drawPanel("Production", results.productOutput, "#27766b", 102, 110);
+  drawPanel("Consumption", results.consumerInput, "#a44d23", 154, 162);
 
   readout.textContent =
-    `Assigned: ${allocations}/6 · Production: ${productOutput} · Consumption: ${consumerInput} · Balance: ${
-      totalBalance > 0 ? "+" : ""
-    }${totalBalance}`;
+    `Assigned: ${allocations}/6 · Production: ${results.productOutput} · Consumption: ${results.consumerInput} · Balance: ${
+      results.totalBalance > 0 ? "+" : ""
+    }${results.totalBalance}`;
 }
 
 function drawPanel(
